@@ -92,10 +92,6 @@ class Feather(toga.App):
             'Relaxed',
             on_press=self.mood_relaxed, style=Pack(padding=5)
         )
-        energetic_button = toga.Button(
-            'Energetic',
-            on_press=self.mood_energetic, style=Pack(padding=5)
-        )
         tired_button = toga.Button(
             'Tired',
             on_press=self.mood_tired, style=Pack(padding=5)
@@ -124,7 +120,6 @@ class Feather(toga.App):
         self.main_box.add(angry_button)
         self.main_box.add(excited_button)
         self.main_box.add(relaxed_button)
-        self.main_box.add(energetic_button)
         self.main_box.add(tired_button)
         self.main_box.add(neutral_button)
 
@@ -158,9 +153,6 @@ class Feather(toga.App):
     def mood_relaxed(self, widget):
         mood = "relaxed"
 
-    def mood_energetic(self, widget):
-        mood = "energetic"
-
     def mood_tired(self, widget):
         mood = "tired"
 
@@ -185,12 +177,10 @@ class Feather(toga.App):
             self.healthbox_server_label = toga.Label('HealthBox Server and Port:')
             self.healthbox_apikey_label = toga.Label('HealthBox API Key:')
 
-            #self.healthbox_server_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="host:port",initial=self.configuration_array[0])
-            #self.healthbox_apikey_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",initial=self.configuration_array[1])
-            self.healthbox_server_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="host:port")
-            self.healthbox_apikey_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+            self.healthbox_server_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="host:port",initial=self.configuration_array[0])
+            self.healthbox_apikey_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",initial=self.configuration_array[1])
 
-            apply_configuration_button = toga.Button('Apply', on_press=self.apply_configuration, style=Pack(padding=5))
+            self.apply_configuration_button = toga.Button('Apply', on_press=self.apply_configuration, style=Pack(padding=5))
 
             self.healthbox_server_box.add(self.healthbox_server_label)
             self.healthbox_server_box.add(self.healthbox_server_input)
@@ -200,7 +190,7 @@ class Feather(toga.App):
 
             self.configuration_box.add(self.healthbox_server_box)
             self.configuration_box.add(self.healthbox_apikey_box)
-            self.configuration_box.add(self.apply_configuration)
+            #self.configuration_box.add(self.apply_configuration_button)
 
             self.main_box.add(self.configuration_box)
 
