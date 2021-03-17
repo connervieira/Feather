@@ -1,0 +1,49 @@
+[tool.briefcase]
+project_name = "Feather"
+bundle = "com.V0LT.feather"
+version = "0.1"
+url = "https://v0lttech.com/feather.php"
+license = "GNU General Public License v3 (GPLv3)"
+author = 'Conner Vieira'
+author_email = "cvieira@v0lttech.com"
+
+[tool.briefcase.app.feather]
+formal_name = "Feather"
+description = "A simple tool for logging your mood throughout the day"
+icon = "src/feather/resources/feather"
+sources = ['src/feather']
+requires = []
+
+
+[tool.briefcase.app.feather.macOS]
+requires = [
+    'toga-cocoa>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.feather.linux]
+requires = [
+    'toga-gtk>=0.3.0.dev20',
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0',
+]
+
+[tool.briefcase.app.feather.windows]
+requires = [
+    'toga-winforms>=0.3.0.dev20',
+]
+
+# Mobile deployments
+[tool.briefcase.app.feather.iOS]
+requires = [
+    'toga-iOS>=0.3.0.dev20',
+]
+
+[tool.briefcase.app.feather.android]
+requires = [
+    'toga-android>=0.3.0.dev20',
+]
