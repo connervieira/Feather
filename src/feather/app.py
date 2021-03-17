@@ -15,8 +15,6 @@ root = str(Path.home()) + "/.config/Feather"
 
 
 
-
-
 class Feather(toga.App):
 
     def initialize_database(self):
@@ -42,7 +40,7 @@ class Feather(toga.App):
             config_database = open(root + "/config.txt", "wb")
             print("Created Feather configuration database at " + root + "/config.txt")
             self.configuration_array = ["localhost:5050", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"] # Create a placeholder database to be filled in later.
-            config_database.write(pickle.dumps(configuration_array, protocol=0))
+            config_database.write(pickle.dumps(self.configuration_array, protocol=0))
             print("Wrote to the configuration database at " + root + "/config.txt with a placeholder database") 
             config_database.close()
 
@@ -169,7 +167,7 @@ class Feather(toga.App):
         if (self.configuration_open == False):
             self.configuration_open = True # Indicate that the configuration section is now open.
 
-            self.configuration_box = toga.Box(style=Pack(direction=COLUMN,padding_top=100))
+            self.configuration_box = toga.Box(style=Pack(direction=COLUMN,padding_top=30))
 
             self.healthbox_server_box = toga.Box(style=Pack(direction=ROW,padding=5))
             self.healthbox_apikey_box = toga.Box(style=Pack(direction=ROW,padding=5))
@@ -180,7 +178,7 @@ class Feather(toga.App):
             self.healthbox_server_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="host:port",initial=self.configuration_array[0])
             self.healthbox_apikey_input = toga.TextInput(style=Pack(flex=1,padding=10),placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",initial=self.configuration_array[1])
 
-            self.apply_configuration_button = toga.Button('Apply', on_press=self.apply_configuration, style=Pack(padding=5))
+            self.apply_configuration_button = toga.Button('Apply', on_press=self.apply_configuration, style=Pack(padding=10))
 
             self.healthbox_server_box.add(self.healthbox_server_label)
             self.healthbox_server_box.add(self.healthbox_server_input)
@@ -190,16 +188,25 @@ class Feather(toga.App):
 
             self.configuration_box.add(self.healthbox_server_box)
             self.configuration_box.add(self.healthbox_apikey_box)
-            #self.configuration_box.add(self.apply_configuration_button)
 
             self.main_box.add(self.configuration_box)
+            self.main_box.add(self.apply_configuration_button)
+
 
         elif (self.configuration_open == True):
             self.configuration_open = False
             self.main_box.remove(self.configuration_box)
+            self.main_box.remove(self.apply_configuration_button)
 
     def apply_configuration(self, widget):
-        pass
+        # Make changes to the configuration array
+        self.configuration_array[0] = self.healthbox_server_input.value
+        self.configuration_array[1] = self.healthbox_apikey_input.value
+    
+        # Save changes to the configuration array to disk
+        config_database = open(root + "/config.txt", "wb") # Open configuration database
+        config_database.write(pickle.dumps(self.configuration_array, protocol=0)) # Write configuration changes to disk
+        config_database.close() # Close the configuration database
 
 
 def main():
