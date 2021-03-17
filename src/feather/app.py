@@ -5,6 +5,37 @@ import os
 import pickle
 from pathlib import Path
 from os.path import expanduser
+import time
+import datetime 
+from datetime import timezone
+import traceback
+import urllib.parse
+
+# Attempt to import the 'requests' module
+try:
+    import requests
+except ModuleNotFoundError as error:
+    if traceback.format_exception_only (ModuleNotFoundError, error) != ["ModuleNotFoundError: No module named 'requests'\n"]: # Make sure the error we're catching is the right one
+        raise # If not, raise the error
+    raise utils.MissingLibraryError ("making web server requests", "requests")
+
+ 
+# Define the function required to make network requests to HealthBox
+class APICallError (Exception): pass # This will be used when returning errors.
+
+def make_request (*, server, api_key, submission = None, print_url = False):
+    endpoint = "metrics/b7/submit".split ('/') # Define the method and metric that this request will use on HealthBox.
+    url = f"http://{server}/api/source/{'/'.join (endpoint)}?api_key={urllib.parse.quote (api_key)}" # Form the URL that will be used to communicate with HealthBox
+    if submission is not None:
+        url += f"&submission={urllib.parse.quote (submission)}" # Attach the JSON submission data to the URL formed above.
+    if print_url: print (f"Making a request to {url}")
+    response = requests.get (url) # Send the network request.
+    response_data = response.json () # Save the response of the network request to the response_data variable.
+    if not response_data ["success"]: # If something goes wrong, return an error.
+        raise APICallError (response_data ["error"])
+    del response_data ["success"]
+    del response_data ["error"]
+    return response_data
 
 
 
@@ -16,6 +47,7 @@ root = str(Path.home()) + "/.config/Feather"
 
 
 class Feather(toga.App):
+    error_label = toga.Label("") # Placeholder for later
 
     def initialize_database(self):
         if os.path.isdir(str(Path.home()) + "/.config") == False:
@@ -60,56 +92,23 @@ class Feather(toga.App):
 
 
         # Create the prompt element
-        prompt_label = toga.Label(
-            'What emotion is most prominent to you right now?',
-            style=Pack(padding=(0, 0),text_align='center')
-        )
+        prompt_label = toga.Label('What emotion is most prominent to you right now?', style=Pack(padding=(0, 0),text_align='center'))
 
         # Create all of the button elements
-        happy_button = toga.Button(
-            'Happy',
-            on_press=self.mood_happy, style=Pack(padding=5)
-        )
-        sad_button = toga.Button(
-            'Sad',
-            on_press=self.mood_sad, style=Pack(padding=5)
-        )
-        stressed_button = toga.Button(
-            'Stressed',
-            on_press=self.mood_stressed, style=Pack(padding=5)
-        )
-        angry_button = toga.Button(
-            'Angry',
-            on_press=self.mood_angry, style=Pack(padding=5)
-        )
-        excited_button = toga.Button(
-            'Excited',
-            on_press=self.mood_excited, style=Pack(padding=5)
-        )
-        relaxed_button = toga.Button(
-            'Relaxed',
-            on_press=self.mood_relaxed, style=Pack(padding=5)
-        )
-        tired_button = toga.Button(
-            'Tired',
-            on_press=self.mood_tired, style=Pack(padding=5)
-        )
-        neutral_button = toga.Button(
-            'Neutral',
-            on_press=self.mood_neutral, style=Pack(padding=5)
-        )
+        happy_button = toga.Button('Happy', on_press=self.mood_happy, style=Pack(padding=5))
+        sad_button = toga.Button('Sad', on_press=self.mood_sad, style=Pack(padding=5))
+        stressed_button = toga.Button('Stressed', on_press=self.mood_stressed, style=Pack(padding=5))
+        angry_button = toga.Button('Angry', on_press=self.mood_angry, style=Pack(padding=5))
+        excited_button = toga.Button('Excited', on_press=self.mood_excited, style=Pack(padding=5))
+        relaxed_button = toga.Button('Relaxed', on_press=self.mood_relaxed, style=Pack(padding=5))
+        tired_button = toga.Button('Tired', on_press=self.mood_tired, style=Pack(padding=5))
+        neutral_button = toga.Button('Neutral', on_press=self.mood_neutral, style=Pack(padding=5))
+
+        submit = toga.Button('Submit', on_press=self.submit, style=Pack(padding=5,padding_top=50,flex=1,padding_left=40))
+        configure = toga.Button('Configure', on_press=self.configure, style=Pack(padding=5,padding_top=50,flex=1,padding_right=40))
 
 
-        submit = toga.Button(
-            'Submit',
-            on_press=self.submit, style=Pack(padding=5,padding_top=50,flex=1,padding_left=40)
-        )
-        configure = toga.Button(
-            'Configure',
-            on_press=self.configure, style=Pack(padding=5,padding_top=50,flex=1,padding_right=40)
-        )
-
-        # Display all of the elements on the interface
+        # Add all of the UI elements to the interface
         self.main_box.add(prompt_label)
 
         self.main_box.add(happy_button)
@@ -126,6 +125,8 @@ class Feather(toga.App):
 
         self.main_box.add(submission_box)
 
+
+        # Show all of the UI elements
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = self.main_box
         self.main_window.show()
@@ -134,34 +135,46 @@ class Feather(toga.App):
 
     # Define the functions for all of the buttons.
     def mood_happy(self, widget):
-        mood = "happy"
+        self.mood = "happy"
 
     def mood_sad(self, widget):
-        mood = "sad"
+        self.mood = "sad"
 
     def mood_stressed(self, widget):
-        mood = "stressed"
+        self.mood = "stressed"
 
     def mood_angry(self, widget):
-        mood = "angry"
+        self.mood = "angry"
 
     def mood_excited(self, widget):
-        mood = "excited"
+        self.mood = "excited"
 
     def mood_relaxed(self, widget):
-        mood = "relaxed"
+        self.mood = "relaxed"
 
     def mood_tired(self, widget):
-        mood = "tired"
+        self.mood = "tired"
 
     def mood_neutral(self, widget):
-        mood = "neutral"
-
-
+        self.mood = "neutral"
 
 
     def submit(self, widget):
-        pass
+        self.main_box.remove(self.error_label)
+        if (self.configuration_array[1] == "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" or len(self.configuration_array[1]) != 32):
+            self.error_label = toga.Label('Error: You need to configure the HealthBox API key!', style=Pack(padding=(0, 0),text_align='center'))
+            self.main_box.add(self.error_label)
+        elif (self.mood == ""):
+            self.error_label = toga.Label('Error: You need to select a mood first!', style=Pack(padding=(0, 0),text_align='center'))
+            self.main_box.add(self.error_label)
+        else:
+            print("GOTHERE")
+            timestamp = int(time.time())
+            # Generate the submission data as plain text JSON data.
+            submission = '{"timestamp": ' + str(timestamp) + ', "data": {"mood": "' + str(self.mood) + '", "time": ' + str(timestamp) + '}}'
+            print(submission)
+            response = make_request (server = self.configuration_array[0], submission = submission, api_key = self.configuration_array[1], print_url = True)
+
 
     def configure(self, widget):
         if (self.configuration_open == False):
