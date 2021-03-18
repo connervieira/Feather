@@ -1,5 +1,8 @@
 # Feather
 
+![Feather Logo](https://v0lttech.com/assets/img/featherlogo.png)
+![Works with HealthBox](https://v0lttech.com/assets/img/workswithhealthbox.png)
+
 A simple mood tracker for use with HealthBox
 
 **Please note**: Feather is very early in development, so many of the features and explanations here are not yet accurate. This document will be updated over time as the project gets developed.
