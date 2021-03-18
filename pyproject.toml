@@ -1,7 +1,7 @@
 [tool.briefcase]
 project_name = "Feather"
-bundle = "com.V0LT.feather"
-version = "0.1"
+bundle = "com.v0lt.feather"
+version = "0.9"
 url = "https://v0lttech.com/feather.php"
 license = "GNU General Public License v3 (GPLv3)"
 author = 'Conner Vieira'

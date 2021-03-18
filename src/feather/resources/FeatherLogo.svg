@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="FeatherLogo.svg">
+   sodipodi:docname="FeatherLogo.svg"
+   inkscape:export-filename="/home/cvieira/Downloads/feather.png"
+   inkscape:export-xdpi="32"
+   inkscape:export-ydpi="32">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="1119.2941"
-     inkscape:cy="1383.5393"
+     inkscape:zoom="0.20992664"
+     inkscape:cx="303.41183"
+     inkscape:cy="1771.4319"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -64,6 +67,9 @@
        d="m 1.2520461,296.90554 c 0,0 166.2330039,-163.42186 277.3869839,-285.51796 105.94286,-116.37198 187.11888,-186.01686 187.11888,-186.01686"
        id="path817"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="csc" />
+       sodipodi:nodetypes="csc"
+       inkscape:export-filename="/home/cvieira/Downloads/File.icns.png"
+       inkscape:export-xdpi="32"
+       inkscape:export-ydpi="32" />
   </g>
 </svg>
