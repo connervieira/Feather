@@ -1,6 +1,10 @@
+# Feather
 
-Feather: A simple tool for logging your mood throughout the day
-Copyright (C) 2021  Conner Vieira
+A simple tool for logging your mood throughout the day.
+
+Copyright (C) 2021  Conner Vieira/V0LT
+
+---
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of version 3 of the GNU General Public License as
