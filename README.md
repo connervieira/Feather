@@ -3,18 +3,16 @@
 ![Feather Logo](https://v0lttech.com/assets/img/featherlogo.png)
 ![Works with HealthBox](https://v0lttech.com/assets/img/workswithhealthbox.png)
 
-A simple mood tracker for use with HealthBox
+A simple mood tracker for use with HealthBox.
 
-**Please note**: Feather is very early in development, so many of the features and explanations here are not yet accurate. This document will be updated over time as the project gets developed.
+## Download
+
+All versions of Feather can be downloaded at <https://v0lttech.com/feather.php>
 
 
 ## Supported Platforms
 
-Feather is still early in development, so things are likely to change, but tenatively, these are the platforms I expect to support.
-
-- GNU/Linux
-- Android
-
+Currently, the only supported platform is **GNU/Linux**, but I'd like to support Android as well in the future.
 
 ## Usage
 
