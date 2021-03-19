@@ -17,7 +17,6 @@ try:
 except ModuleNotFoundError as error:
     if traceback.format_exception_only (ModuleNotFoundError, error) != ["ModuleNotFoundError: No module named 'requests'\n"]: # Make sure the error we're catching is the right one
         raise # If not, raise the error
-    raise utils.MissingLibraryError ("making web server requests", "requests")
 
  
 # Define the function required to make network requests to HealthBox
