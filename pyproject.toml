@@ -1,7 +1,7 @@
 [tool.briefcase]
 project_name = "Feather"
 bundle = "com.v0lt.feather"
-version = "0.9"
+version = "0.9.1"
 url = "https://v0lttech.com/feather.php"
 license = "GNU General Public License v3 (GPLv3)"
 author = 'Conner Vieira'
@@ -12,7 +12,7 @@ formal_name = "Feather"
 description = "A simple tool for logging your mood throughout the day"
 icon = "src/feather/resources/feather"
 sources = ['src/feather']
-requires = []
+requires = ['requests']
 
 
 [tool.briefcase.app.feather.macOS]

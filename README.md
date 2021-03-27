@@ -5,6 +5,7 @@
 
 A simple mood tracker for use with HealthBox.
 
+
 ## Download
 
 All versions of Feather can be downloaded at <https://v0lttech.com/feather.php>
@@ -13,6 +14,7 @@ All versions of Feather can be downloaded at <https://v0lttech.com/feather.php>
 ## Supported Platforms
 
 Currently, the only supported platform is **GNU/Linux**, but I'd like to support Android as well in the future.
+
 
 ## Usage
 
